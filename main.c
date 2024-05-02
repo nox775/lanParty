@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
 
-    FILE *fin, *fout, *ftask;
+    FILE *ftask, *fin, *fout;
     fileDeclarations(ftask, fin, fout, argv);
     int v[5];
     taskInit(ftask, v);
