@@ -1,6 +1,11 @@
-#include "../main.h"
-
 void fileOpenVerification(FILE *);
-void fileDeclarations(FILE *, FILE *, FILE *, char *);
+void fileDeclarations(FILE *, FILE *, FILE *, char **);
 void taskInit(FILE *, int *);
-void taskCall(int);
+
+int numberOfTeams(FILE *, int);
+
+teamInfo fileReadTeam(FILE *, teamInfo);
+teamInfo fileReadPlayer(FILE *, teamInfo, int);
+
+void task1(FILE *, FILE *, Node *);
+void printNameOfTeams(FILE *, Node *);
