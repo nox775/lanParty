@@ -14,3 +14,32 @@ void addAtBeginning(Node **head, teamInfo buffer, FILE *fin)
     newNode->next = *head;
     *head = newNode;
 }
+
+void deleteNode(Node **head, int val)
+{
+    if (*head = NULL)
+        return;
+
+    Node *headcopy = *head;
+    if (headcopy->val.teamPoints == val)
+    {
+        *head = (*head)->next;
+        free(headcopy);
+    }
+
+    Node *prev = *head;
+    while (headcopy != NULL)
+    {
+        if (headcopy->val.teamPoints != val)
+        {
+            prev = headcopy;
+            headcopy = headcopy->next;
+        }
+        else
+        {
+            prev->next = headcopy->next;
+            free(headcopy);
+            return;
+        }
+    }
+}

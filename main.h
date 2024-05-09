@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define numberOfTasks 5
 #define maxName 50
@@ -19,6 +20,7 @@ struct Team
 {
     char teamName[maxName];
     int numberOfPlayers;
+    float teamPoints;
     playerInfo player[maxNrPlayers];
 };
 
