@@ -15,22 +15,23 @@ void addAtBeginning(Node **head, teamInfo buffer, FILE *fin)
     *head = newNode;
 }
 
-void deleteNode(Node **head, int val)
+void deleteNode(Node **head, float val)
 {
-    if (*head = NULL)
+    if (*head == NULL)
         return;
 
     Node *headcopy = *head;
-    if (headcopy->val.teamPoints == val)
+    if (float_equal(val, headcopy->val.teamPoints))
     {
         *head = (*head)->next;
         free(headcopy);
+        return;
     }
 
     Node *prev = *head;
     while (headcopy != NULL)
     {
-        if (headcopy->val.teamPoints != val)
+        if (!float_equal(val, headcopy->val.teamPoints))
         {
             prev = headcopy;
             headcopy = headcopy->next;

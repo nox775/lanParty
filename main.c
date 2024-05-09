@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     {
         fout = fopen(argv[3], "wb");
         fileOpenVerification(fout);
-        task1(fin, fout, listTeams, nr_teams);
+        task1(fin, fout, &listTeams, nr_teams);
         fclose(fout);
     }
 
@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
     {
         fout = fopen(argv[3], "wb");
         fileOpenVerification(fout);
-        task2(listTeams, nr_teams, fout);
+
+        task2(&listTeams, nr_teams, fout);
         fclose(fout);
     }
     /*

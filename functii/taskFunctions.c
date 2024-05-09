@@ -56,7 +56,7 @@ void printNameOfTeams(FILE *fout, Node *listTeams)
     fprintf(fout, "%s\n", listTeams->val.teamName);
 }
 
-void task1(FILE *fin, FILE *fout, Node *listTeams, int nr_teams)
+void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
 {
     // scrie informatiile despre echipa intr-o lista
     teamInfo team;
@@ -65,82 +65,98 @@ void task1(FILE *fin, FILE *fout, Node *listTeams, int nr_teams)
     {
         team = fileReadTeam(fin, team);
 
-        addAtBeginning(&listTeams, team, fin);
+        addAtBeginning(listTeams, team, fin);
     }
-    printNameOfTeams(fout, listTeams);
+    printNameOfTeams(fout, *listTeams);
 }
 
-void totalTeamPoints(Node **listTeams)
+void totalTeamPoints(Node *listTeams)
 {
     // Calculeaza punctele pe echipa si le memoreaza in campul teamPoints
-    Node *headcopy = *listTeams;
 
-    while (headcopy != NULL)
+    while (listTeams != NULL)
     {
 
         float points = 0;
-        for (int i = 0; i < headcopy->val.numberOfPlayers; i++)
-            points = points + (headcopy->val.player[i]).points;
+        for (int i = 0; i < listTeams->val.numberOfPlayers; i++)
+            points = points + listTeams->val.player[i].points;
 
-        headcopy->val.teamPoints = points / headcopy->val.numberOfPlayers;
-        headcopy = headcopy->next;
+        listTeams->val.teamPoints = points / ((float)listTeams->val.numberOfPlayers);
+
+        // printf("\n%s %.2f\n", listTeams->val.teamName, listTeams->val.teamPoints);
+
+        listTeams = listTeams->next;
     }
 }
 
 int NumberRemaningTeams(int nr_teams)
 {
     // numarul de echipe ramase
+    // printf("\n ECHIPE %d \n", nr_teams);
     int power = 0;
-    while (nr_teams)
+    while (nr_teams > 1)
     {
         nr_teams = nr_teams / 2;
         power++;
     }
 
     int remaning = 1;
-    for (int i = 0; i <= power; i++)
+    for (int i = 1; i <= power; i++)
         remaning = remaning * 2;
+
+    //  printf("\n ECHIPE RAMASE %d \n", remaning);
 
     return remaning;
 }
 
-void descending_sort(int *v, int nr_teams)
+void descending_sort(float *v, int nr_teams)
 {
     for (int i = 0; i < nr_teams; i++)
         for (int j = 0; j < nr_teams; j++)
-            if (v[i] < v[j])
+            if (v[i] > v[j])
             {
-                int aux = v[i];
+                float aux = v[i];
                 v[i] = v[j];
                 v[j] = aux;
             }
 }
 
-void *lastTeamPoints(Node *listTeams, int nr_teams, int *scoring)
+void lastTeamPoints(Node *listTeams, int nr_teams, float *scoring)
 {
     // sorteaza intr-un vector punctajele echipelor
     // pune la final punctajele mic;
-
-    for (int i = 0; i < nr_teams; i++)
+    int i = 0;
+    while (listTeams != NULL)
     {
+
         scoring[i] = listTeams->val.teamPoints;
         listTeams = listTeams->next;
+        i++;
     }
+
     descending_sort(scoring, nr_teams);
 }
 
-void task2(Node *listTeams, int nr_teams, FILE *fout)
+int float_equal(float a, float b)
 {
-    totalTeamPoints(&listTeams);
+    return fabs(a - b) < epsilon;
+}
 
-    int *scoring = (int *)malloc(nr_teams * sizeof(int));
-    lastTeamPoints(listTeams, nr_teams, scoring);
+void task2(Node **listTeams, int nr_teams, FILE *fout)
+{
+    totalTeamPoints(*listTeams);
+
+    float *scoring = (float *)malloc(nr_teams * sizeof(float));
+
+    lastTeamPoints(*listTeams, nr_teams, scoring);
 
     int nr_teams_remaning = NumberRemaningTeams(nr_teams);
 
     for (int i = nr_teams - 1; i >= nr_teams_remaning; i--)
     {
-        deleteNode(&listTeams, scoring[i]);
+        deleteNode(listTeams, scoring[i]);
     }
-    printNameOfTeams(fout, listTeams);
+
+    printNameOfTeams(fout, *listTeams);
+    free(scoring);
 }

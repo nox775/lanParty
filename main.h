@@ -6,6 +6,7 @@
 #define numberOfTasks 5
 #define maxName 50
 #define maxNrPlayers 20
+#define epsilon 0.00001
 
 struct Players
 {
