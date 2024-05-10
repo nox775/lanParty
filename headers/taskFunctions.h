@@ -12,7 +12,13 @@ void printNameOfTeams(FILE *, Node *);
 
 void totalTeamPoints(Node *);
 int NumberRemaningTeams(int);
-void descending_sort(float *, int);
 void lastTeamPoints(Node *, int, float *);
+
+void descending_sort(float *, int);
 int float_equal(float, float);
+
 void task2(Node **, int, FILE *);
+
+void task3(Node *, FILE *, Queue **, int);
+void makeGames(Queue **, Node *);
+void printGames(Queue *, FILE *, int);

@@ -1,6 +1,8 @@
 #include "../main.h"
 #include "../headers/taskFunctions.h"
 #include "../headers/liste.h"
+#include "../headers/stack.h"
+#include "../headers/queue.h"
 
 void fileOpenVerification(FILE *file)
 {
@@ -30,8 +32,7 @@ int numberOfTeams(FILE *file, int n)
 teamInfo fileReadTeam(FILE *file, teamInfo buffer)
 {
     // citeste din fisier intr-un buffer informatii despre echipa
-    fscanf(file, "%d %[^\n]", &(buffer.numberOfPlayers), buffer.teamName);
-
+    fscanf(file, "%d %[^\n]\n", &(buffer.numberOfPlayers), buffer.teamName);
     return buffer;
 }
 
@@ -159,4 +160,41 @@ void task2(Node **listTeams, int nr_teams, FILE *fout)
 
     printNameOfTeams(fout, *listTeams);
     free(scoring);
+}
+
+void printGames(Queue *games, FILE *fout, int nr_games)
+{
+    int rounda = 1;
+
+    teamInfo team1, team2;
+    // while (nr_games)
+    // {
+    fprintf(fout, "\n--- ROUND NO:%d\n", rounda);
+    for (int i = 1; i <= nr_games; i++)
+    {
+        team1 = deQueue(games);
+        team2 = deQueue(games);
+        team1.teamName[strlen(team1.teamName) - 1] = '\0';
+        team2.teamName[strlen(team2.teamName) - 1] = '\0';
+        fprintf(fout, "%-30s - %30s\n", team1.teamName, team2.teamName);
+    }
+    //  rounda++;
+    // nr_games = nr_games / rounda;
+    // }
+}
+
+void makeGames(Queue **games, Node *listTeams)
+{
+    while (listTeams != NULL)
+    {
+        enQueue(*games, listTeams->val);
+        listTeams = listTeams->next;
+    }
+}
+
+void task3(Node *listTeams, FILE *fout, Queue **games, int nr_teams)
+{
+    int nr_games = NumberRemaningTeams(nr_teams) / 2;
+    makeGames(games, listTeams);
+    printGames(*games, fout, nr_games);
 }

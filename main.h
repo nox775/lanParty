@@ -34,3 +34,9 @@ struct elem
 };
 
 typedef struct elem Node;
+
+struct Q
+{
+    Node *front, *rear;
+};
+typedef struct Q Queue;
