@@ -21,7 +21,7 @@ teamInfo pop(Node **top)
 {
     if (isEmptyStack(*top))
     {
-        printf("Stiva goala");
+        printf("Stiva goala\n");
         exit(-1);
     }
 

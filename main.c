@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     fclose(ftask);
 
-    Node *listTeams = NULL;
+    Node *listTeams = NULL, *lastEightTeams = NULL;
     int nr_teams = numberOfTeams(fin, nr_teams);
     if (task[0] == 1)
     {
@@ -39,9 +39,7 @@ int main(int argc, char *argv[])
 
     if (task[2] == 1)
     {
-        // Node *stackTop = NULL;
-        Queue *games = createQueue();
-        task3(listTeams, fout, &games, nr_teams);
+        lastEightTeams = task3(listTeams, fout, nr_teams);
     }
 
     /*if (task[3] == 1)

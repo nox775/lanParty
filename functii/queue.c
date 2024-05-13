@@ -42,7 +42,7 @@ teamInfo deQueue(Queue *q)
     teamInfo d;
     if (isEmptyQueue(q))
     {
-        printf("Coada goala");
+        printf("Coada goala\n");
         exit(-1);
     }
 

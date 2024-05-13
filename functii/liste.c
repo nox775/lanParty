@@ -44,3 +44,28 @@ void deleteNode(Node **head, float val)
         }
     }
 }
+
+void deleteList(Node **head)
+{
+    Node *headcopy;
+
+    while (*head != NULL)
+    {
+        headcopy = (*head)->next;
+        free(*head);
+        *head = headcopy;
+    }
+    *head = NULL;
+}
+
+void addWinnersToList(Node **head, Node *WinStack)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        Node *newNode = (Node *)malloc(sizeof(Node));
+        newNode->val = WinStack->val;
+        newNode->next = *head;
+        *head = newNode;
+        WinStack = WinStack->next;
+    }
+}

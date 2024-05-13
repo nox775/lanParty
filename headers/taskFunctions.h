@@ -19,6 +19,11 @@ int float_equal(float, float);
 
 void task2(Node **, int, FILE *);
 
-void task3(Node *, FILE *, Queue **, int);
-void makeGames(Queue **, Node *);
-void printGames(Queue *, FILE *, int);
+Node *task3(Node *, FILE *, int);
+
+void QueueExtractFromList(Queue **, Node *);
+void QueueExtractFromStack(Queue **, Node *);
+
+void printGames(Queue **, FILE *, int, int, Node **, Node **);
+int VersusWinner(teamInfo, teamInfo);
+void printWinners(Node *, int, FILE *, int);

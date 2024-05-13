@@ -7,6 +7,7 @@
 #define maxName 50
 #define maxNrPlayers 20
 #define epsilon 0.00001
+#define INT_MIN 2147483648
 
 struct Players
 {

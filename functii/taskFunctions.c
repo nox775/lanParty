@@ -32,7 +32,10 @@ int numberOfTeams(FILE *file, int n)
 teamInfo fileReadTeam(FILE *file, teamInfo buffer)
 {
     // citeste din fisier intr-un buffer informatii despre echipa
-    fscanf(file, "%d %[^\n]\n", &(buffer.numberOfPlayers), buffer.teamName);
+    fscanf(file, "%d %[^\n]", &(buffer.numberOfPlayers), buffer.teamName);
+
+    buffer.teamName[strlen(buffer.teamName) - 1] = '\0';
+
     return buffer;
 }
 
@@ -93,7 +96,6 @@ void totalTeamPoints(Node *listTeams)
 int NumberRemaningTeams(int nr_teams)
 {
     // numarul de echipe ramase
-    // printf("\n ECHIPE %d \n", nr_teams);
     int power = 0;
     while (nr_teams > 1)
     {
@@ -104,8 +106,6 @@ int NumberRemaningTeams(int nr_teams)
     int remaning = 1;
     for (int i = 1; i <= power; i++)
         remaning = remaning * 2;
-
-    //  printf("\n ECHIPE RAMASE %d \n", remaning);
 
     return remaning;
 }
@@ -162,39 +162,108 @@ void task2(Node **listTeams, int nr_teams, FILE *fout)
     free(scoring);
 }
 
-void printGames(Queue *games, FILE *fout, int nr_games)
+int VersusWinner(teamInfo team1, teamInfo team2)
 {
-    int rounda = 1;
-
-    teamInfo team1, team2;
-    // while (nr_games)
-    // {
-    fprintf(fout, "\n--- ROUND NO:%d\n", rounda);
-    for (int i = 1; i <= nr_games; i++)
-    {
-        team1 = deQueue(games);
-        team2 = deQueue(games);
-        team1.teamName[strlen(team1.teamName) - 1] = '\0';
-        team2.teamName[strlen(team2.teamName) - 1] = '\0';
-        fprintf(fout, "%-30s - %30s\n", team1.teamName, team2.teamName);
-    }
-    //  rounda++;
-    // nr_games = nr_games / rounda;
-    // }
+    // Aflarea castigatorului meciului
+    if (team1.teamPoints > team2.teamPoints)
+        return 1;
+    else
+        return 0;
 }
 
-void makeGames(Queue **games, Node *listTeams)
+void printGames(Queue **QueueGames, FILE *fout, int nr_games, int round, Node **WinStack, Node **LoseStack)
 {
+    // pune in fisierul de iesire date despre meciuri
+    //  compara echipele
+    teamInfo team1, team2;
+    fprintf(fout, "\n--- ROUND NO:%d\n", round);
+
+    for (int i = 1; i <= nr_games; i++)
+    {
+        team1 = deQueue(*QueueGames);
+        team2 = deQueue(*QueueGames);
+
+        fprintf(fout, "%-32s - %32s\n", team1.teamName, team2.teamName);
+
+        if (VersusWinner(team1, team2) == 1)
+        {
+            team1.teamPoints++;
+            push(WinStack, team1);
+            push(LoseStack, team2);
+        }
+        else
+        {
+            team2.teamPoints++;
+            push(WinStack, team2);
+            push(LoseStack, team1);
+        }
+    }
+}
+
+void printWinners(Node *WinStack, int round, FILE *fout, int nr_teams)
+{
+    // Afiseaza castigatorii fiecarei runde
+    fprintf(fout, "\nWINNERS OF ROUND NO:%d\n", round);
+
+    for (int i = 1; i <= nr_teams / 2; i++)
+    {
+        fprintf(fout, "%-32s  -  %.2f\n", WinStack->val.teamName, WinStack->val.teamPoints);
+        WinStack = WinStack->next;
+    }
+}
+
+void QueueExtractFromList(Queue **QueueGames, Node *listTeams)
+{
+    // Puna in coada echipele din lista
     while (listTeams != NULL)
     {
-        enQueue(*games, listTeams->val);
+        enQueue(*QueueGames, listTeams->val);
         listTeams = listTeams->next;
     }
 }
 
-void task3(Node *listTeams, FILE *fout, Queue **games, int nr_teams)
+void QueueExtractFromStack(Queue **QueueGames, Node *WinStack)
 {
-    int nr_games = NumberRemaningTeams(nr_teams) / 2;
-    makeGames(games, listTeams);
-    printGames(*games, fout, nr_games);
+    // Pune in coada echipele victorioase din stiva
+    while (WinStack != NULL)
+    {
+        enQueue(*QueueGames, WinStack->val);
+        WinStack = WinStack->next;
+    }
+    deleteStack(&WinStack);
+}
+
+Node *task3(Node *listTeams, FILE *fout, int nr_teams)
+{
+    nr_teams = NumberRemaningTeams(nr_teams);
+    int nr_games = nr_teams / 2;
+    int round = 1;
+
+    Queue *QueueGames = createQueue();
+    Node *WinStack = NULL, *LoseStack = NULL, *LastEightList = NULL;
+
+    QueueExtractFromList(&QueueGames, listTeams);
+
+    while (nr_teams >= 2)
+    {
+
+        if (nr_teams == 8)
+            addWinnersToList(&LastEightList, WinStack);
+
+        printGames(&QueueGames, fout, nr_games, round, &WinStack, &LoseStack);
+        printWinners(WinStack, round, fout, nr_teams);
+
+        nr_teams = nr_teams / 2;
+        nr_games = nr_games / 2;
+        round++;
+
+        deleteQueue(QueueGames);
+        QueueGames = createQueue();
+
+        QueueExtractFromStack(&QueueGames, WinStack);
+
+        deleteStack(&LoseStack);
+    }
+    deleteList(&listTeams);
+    return LastEightList;
 }
