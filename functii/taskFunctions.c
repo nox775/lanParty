@@ -35,6 +35,10 @@ teamInfo fileReadTeam(FILE *file, teamInfo buffer)
     fscanf(file, "%d %[^\n]", &(buffer.numberOfPlayers), buffer.teamName);
 
     buffer.teamName[strlen(buffer.teamName) - 1] = '\0';
+    if (buffer.teamName[strlen(buffer.teamName) - 1] == ' ')
+    {
+        buffer.teamName[strlen(buffer.teamName) - 1] = '\0';
+    }
 
     return buffer;
 }
