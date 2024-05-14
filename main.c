@@ -22,7 +22,10 @@ int main(int argc, char *argv[])
     fclose(ftask);
 
     Node *listTeams = NULL, *lastEightTeams = NULL;
+    Tree *lastEightTree = NULL;
+
     int nr_teams = numberOfTeams(fin, nr_teams);
+
     if (task[0] == 1)
     {
 
@@ -42,10 +45,12 @@ int main(int argc, char *argv[])
         lastEightTeams = task3(listTeams, fout, nr_teams);
     }
 
-    /*if (task[3] == 1)
-         task4();
-     if (task[4] == 1)
-         task5();*/
+    if (task[3] == 1)
+    {
+        lastEightTree = task4(lastEightTeams, fout);
+    }
+    /*if (task[4] == 1)
+        task5();*/
 
     fclose(fin);
 

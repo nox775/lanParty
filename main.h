@@ -5,7 +5,7 @@
 
 #define numberOfTasks 5
 #define maxName 50
-#define maxNrPlayers 20
+#define maxPlayers 20
 #define epsilon 0.00001
 #define INT_MIN 2147483648
 
@@ -23,7 +23,7 @@ struct Team
     char teamName[maxName];
     int numberOfPlayers;
     float teamPoints;
-    playerInfo player[maxNrPlayers];
+    playerInfo player[maxPlayers];
 };
 
 typedef struct Team teamInfo;
@@ -41,3 +41,10 @@ struct Q
     Node *front, *rear;
 };
 typedef struct Q Queue;
+
+struct N
+{
+    teamInfo val;
+    struct N *left, *right;
+};
+typedef struct N Tree;

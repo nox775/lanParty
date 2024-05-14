@@ -1,7 +1,7 @@
 #include "../main.h"
 #include "../headers/taskFunctions.h"
-// #include "../headers/liste.h"
-// #include "../headers/stack.h"
+#include "../headers/liste.h"
+#include "../headers/stack.h"
 #include "../headers/queue.h"
 
 Queue *createQueue()
@@ -63,4 +63,25 @@ void deleteQueue(Queue *q)
         free(aux);
     }
     free(q);
+}
+
+void QueueExtractFromList(Queue **QueueGames, Node *listTeams)
+{
+    // Puna in coada echipele din lista
+    while (listTeams != NULL)
+    {
+        enQueue(*QueueGames, listTeams->val);
+        listTeams = listTeams->next;
+    }
+}
+
+void QueueExtractFromStack(Queue **QueueGames, Node *WinStack)
+{
+    // Pune in coada echipele victorioase din stiva
+    while (WinStack != NULL)
+    {
+        enQueue(*QueueGames, WinStack->val);
+        WinStack = WinStack->next;
+    }
+    deleteStack(&WinStack);
 }

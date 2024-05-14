@@ -1,8 +1,8 @@
 #include "../main.h"
 #include "../headers/taskFunctions.h"
-// #include "../headers/liste.h"
+#include "../headers/liste.h"
 #include "../headers/stack.h"
-// #include "../headers/queue.h"
+#include "../headers/queue.h"
 
 int isEmptyStack(Node *top)
 {
@@ -41,5 +41,17 @@ void deleteStack(Node **top)
         temp = *top;
         *top = (*top)->next;
         free(temp);
+    }
+}
+
+void printWinners(Node *WinStack, int round, FILE *fout, int nr_teams)
+{
+    // Afiseaza castigatorii fiecarei runde
+    fprintf(fout, "\nWINNERS OF ROUND NO:%d\n", round);
+
+    for (int i = 1; i <= nr_teams / 2; i++)
+    {
+        fprintf(fout, "%-32s  -  %.2f\n", WinStack->val.teamName, WinStack->val.teamPoints);
+        WinStack = WinStack->next;
     }
 }

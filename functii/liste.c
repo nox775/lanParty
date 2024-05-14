@@ -69,3 +69,38 @@ void addWinnersToList(Node **head, Node *WinStack)
         WinStack = WinStack->next;
     }
 }
+
+void totalTeamPoints(Node *listTeams)
+{
+    // Calculeaza punctele pe echipa si le memoreaza in campul teamPoints
+
+    while (listTeams != NULL)
+    {
+
+        float points = 0;
+        for (int i = 0; i < listTeams->val.numberOfPlayers; i++)
+            points = points + listTeams->val.player[i].points;
+
+        listTeams->val.teamPoints = points / ((float)listTeams->val.numberOfPlayers);
+
+        // printf("\n%s %.2f\n", listTeams->val.teamName, listTeams->val.teamPoints);
+
+        listTeams = listTeams->next;
+    }
+}
+
+void lastTeamPoints(Node *listTeams, int nr_teams, float *scoring)
+{
+    // sorteaza intr-un vector punctajele echipelor
+    // pune la final punctajele mic;
+    int i = 0;
+    while (listTeams != NULL)
+    {
+
+        scoring[i] = listTeams->val.teamPoints;
+        listTeams = listTeams->next;
+        i++;
+    }
+
+    descending_sort(scoring, nr_teams);
+}

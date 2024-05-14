@@ -3,6 +3,7 @@
 #include "../headers/liste.h"
 #include "../headers/stack.h"
 #include "../headers/queue.h"
+#include "../headers/BSTree.h"
 
 void fileOpenVerification(FILE *file)
 {
@@ -46,6 +47,7 @@ teamInfo fileReadTeam(FILE *file, teamInfo buffer)
 teamInfo fileReadPlayer(FILE *file, teamInfo buffer, int n)
 {
     // citeste din fisier intr-un buffer informatii despre jucator
+
     for (int i = 0; i < n; i++)
     {
         fscanf(file, "%s %s %d", (buffer.player[i]).firstName, (buffer.player[i]).secondName, &((buffer.player[i]).points));
@@ -78,25 +80,6 @@ void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
     printNameOfTeams(fout, *listTeams);
 }
 
-void totalTeamPoints(Node *listTeams)
-{
-    // Calculeaza punctele pe echipa si le memoreaza in campul teamPoints
-
-    while (listTeams != NULL)
-    {
-
-        float points = 0;
-        for (int i = 0; i < listTeams->val.numberOfPlayers; i++)
-            points = points + listTeams->val.player[i].points;
-
-        listTeams->val.teamPoints = points / ((float)listTeams->val.numberOfPlayers);
-
-        // printf("\n%s %.2f\n", listTeams->val.teamName, listTeams->val.teamPoints);
-
-        listTeams = listTeams->next;
-    }
-}
-
 int NumberRemaningTeams(int nr_teams)
 {
     // numarul de echipe ramase
@@ -124,22 +107,6 @@ void descending_sort(float *v, int nr_teams)
                 v[i] = v[j];
                 v[j] = aux;
             }
-}
-
-void lastTeamPoints(Node *listTeams, int nr_teams, float *scoring)
-{
-    // sorteaza intr-un vector punctajele echipelor
-    // pune la final punctajele mic;
-    int i = 0;
-    while (listTeams != NULL)
-    {
-
-        scoring[i] = listTeams->val.teamPoints;
-        listTeams = listTeams->next;
-        i++;
-    }
-
-    descending_sort(scoring, nr_teams);
 }
 
 int float_equal(float a, float b)
@@ -204,39 +171,6 @@ void printGames(Queue **QueueGames, FILE *fout, int nr_games, int round, Node **
     }
 }
 
-void printWinners(Node *WinStack, int round, FILE *fout, int nr_teams)
-{
-    // Afiseaza castigatorii fiecarei runde
-    fprintf(fout, "\nWINNERS OF ROUND NO:%d\n", round);
-
-    for (int i = 1; i <= nr_teams / 2; i++)
-    {
-        fprintf(fout, "%-32s  -  %.2f\n", WinStack->val.teamName, WinStack->val.teamPoints);
-        WinStack = WinStack->next;
-    }
-}
-
-void QueueExtractFromList(Queue **QueueGames, Node *listTeams)
-{
-    // Puna in coada echipele din lista
-    while (listTeams != NULL)
-    {
-        enQueue(*QueueGames, listTeams->val);
-        listTeams = listTeams->next;
-    }
-}
-
-void QueueExtractFromStack(Queue **QueueGames, Node *WinStack)
-{
-    // Pune in coada echipele victorioase din stiva
-    while (WinStack != NULL)
-    {
-        enQueue(*QueueGames, WinStack->val);
-        WinStack = WinStack->next;
-    }
-    deleteStack(&WinStack);
-}
-
 Node *task3(Node *listTeams, FILE *fout, int nr_teams)
 {
     nr_teams = NumberRemaningTeams(nr_teams);
@@ -270,4 +204,19 @@ Node *task3(Node *listTeams, FILE *fout, int nr_teams)
     }
     deleteList(&listTeams);
     return LastEightList;
+}
+
+Tree *task4(Node *LastEightTeams, FILE *fout)
+{
+    Tree *root = NULL;
+    while (LastEightTeams != NULL)
+    {
+
+        root = insertTree(root, LastEightTeams->val);
+        LastEightTeams = LastEightTeams->next;
+    }
+    fprintf(fout, "\nTOP 8 TEAMS:\n");
+    printTree(root, fout);
+
+    return root;
 }
