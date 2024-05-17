@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <limits.h>
 
 #define numberOfTasks 5
 #define maxName 50
-#define maxPlayers 20
 #define epsilon 0.00001
-#define INT_MIN 2147483648
 
 struct Players
 {
