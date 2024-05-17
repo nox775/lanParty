@@ -23,7 +23,7 @@ struct Team
     char teamName[maxName];
     int numberOfPlayers;
     float teamPoints;
-    playerInfo player[maxPlayers];
+    playerInfo *player;
 };
 
 typedef struct Team teamInfo;

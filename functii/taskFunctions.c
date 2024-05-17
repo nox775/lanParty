@@ -30,6 +30,17 @@ int numberOfTeams(FILE *file, int n)
     return n;
 }
 
+playerInfo *allocatePlayers(int numberOfPlayers)
+{
+    playerInfo *players = (playerInfo *)malloc(numberOfPlayers * sizeof(playerInfo));
+    if (!players)
+    {
+        printf("Memory allocation failed\n");
+        exit(-1);
+    }
+    return players;
+}
+
 teamInfo fileReadTeam(FILE *file, teamInfo buffer)
 {
     // citeste din fisier intr-un buffer informatii despre echipa
@@ -74,6 +85,7 @@ void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
     for (int i = 0; i < nr_teams; i++)
     {
         team = fileReadTeam(fin, team);
+        team.player = allocatePlayers(team.numberOfPlayers);
 
         addAtBeginning(listTeams, team, fin);
     }

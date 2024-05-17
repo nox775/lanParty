@@ -4,6 +4,8 @@ void taskInit(FILE *, int *);
 
 int numberOfTeams(FILE *, int);
 
+playerInfo *allocatePlayers(int);
+
 teamInfo fileReadTeam(FILE *, teamInfo);
 teamInfo fileReadPlayer(FILE *, teamInfo, int);
 
