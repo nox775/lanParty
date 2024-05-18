@@ -5,6 +5,8 @@
 void addAtBeginning(Node **head, teamInfo buffer, FILE *fin)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
+
+    newNode->val.teamName = allocateString();
     newNode->val.player = allocatePlayers(buffer.numberOfPlayers);
 
     (newNode->val).numberOfPlayers = buffer.numberOfPlayers;
@@ -25,7 +27,7 @@ void deleteNode(Node **head, float val)
     if (float_equal(val, headcopy->val.teamPoints))
     {
         *head = (*head)->next;
-        free(headcopy->val.player);
+        // free(headcopy->val.player);
         free(headcopy);
         return;
     }
@@ -41,7 +43,7 @@ void deleteNode(Node **head, float val)
         else
         {
             prev->next = headcopy->next;
-            free(headcopy->val.player);
+            //  free(headcopy->val.player);
             free(headcopy);
             return;
         }
@@ -55,7 +57,7 @@ void deleteList(Node **head)
     while (*head != NULL)
     {
         headcopy = (*head)->next;
-        free((*head)->val.player);
+        // free((*head)->val.player);
         free(*head);
         *head = headcopy;
     }

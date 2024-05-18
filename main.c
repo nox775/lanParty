@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 
         task1(fin, fout, &listTeams, nr_teams);
         fclose(fout);
+        fclose(fin);
     }
     if (task[1] == 1)
     {
@@ -49,10 +50,10 @@ int main(int argc, char *argv[])
     {
         lastEightTree = task4(lastEightTeams, fout);
     }
-    /*if (task[4] == 1)
-        task5();*/
+    if (task[4] == 1)
+        task5(lastEightTeams, fout);
 
-    fclose(fin);
+    fclose(fout);
 
     return 0;
 }

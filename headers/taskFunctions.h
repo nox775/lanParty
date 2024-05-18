@@ -4,6 +4,8 @@ void taskInit(FILE *, int *);
 
 int numberOfTeams(FILE *, int);
 
+char *allocateString();
+
 playerInfo *allocatePlayers(int);
 
 teamInfo fileReadTeam(FILE *, teamInfo);
@@ -25,3 +27,4 @@ void printGames(Queue **, FILE *, int, int, Node **, Node **);
 int VersusWinner(teamInfo, teamInfo);
 
 Tree *task4(Node *, FILE *);
+void task5(Node *, FILE *);

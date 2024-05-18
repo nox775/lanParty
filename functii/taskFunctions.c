@@ -4,6 +4,7 @@
 #include "../headers/stack.h"
 #include "../headers/queue.h"
 #include "../headers/BSTree.h"
+#include "../headers/AVLtree.h"
 
 void fileOpenVerification(FILE *file)
 {
@@ -15,12 +16,11 @@ void fileOpenVerification(FILE *file)
     }
 }
 
-void taskInit(FILE *filename1, int v[numberOfTasks])
-{
-    // Initializarea datelor din c.in intr-un vector
+void taskInit(FILE *file, int task[numberOfTasks])
+{ // Initializarea datelor din c.in intr-un vector
     for (int i = 0; i < numberOfTasks; i++)
     {
-        fscanf(filename1, "%d ", &v[i]);
+        fscanf(file, "%d ", &task[i]);
     }
 }
 
@@ -38,12 +38,27 @@ playerInfo *allocatePlayers(int numberOfPlayers)
         printf("Memory allocation failed\n");
         exit(-1);
     }
+    for (int i = 0; i < numberOfPlayers; i++)
+    {
+        players[i].firstName = (char *)malloc(maxName * sizeof(char));
+        players[i].secondName = (char *)malloc(maxName * sizeof(char));
+    }
     return players;
 }
 
-teamInfo fileReadTeam(FILE *file, teamInfo buffer)
+char *allocateString()
 {
-    // citeste din fisier intr-un buffer informatii despre echipa
+    char *str = (char *)malloc(maxName * sizeof(char));
+    if (!str)
+    {
+        printf("Memory allocation failed\n");
+        exit(-1);
+    }
+    return str;
+}
+
+teamInfo fileReadTeam(FILE *file, teamInfo buffer)
+{ // citeste din fisier intr-un buffer informatii despre echipa
     fscanf(file, "%d %[^\n]", &(buffer.numberOfPlayers), buffer.teamName);
 
     buffer.teamName[strlen(buffer.teamName) - 1] = '\0';
@@ -56,9 +71,7 @@ teamInfo fileReadTeam(FILE *file, teamInfo buffer)
 }
 
 teamInfo fileReadPlayer(FILE *file, teamInfo buffer, int n)
-{
-    // citeste din fisier intr-un buffer informatii despre jucator
-
+{ // citeste din fisier intr-un buffer informatii despre jucator
     for (int i = 0; i < n; i++)
     {
         fscanf(file, "%s %s %d", (buffer.player[i]).firstName, (buffer.player[i]).secondName, &((buffer.player[i]).points));
@@ -84,6 +97,7 @@ void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
 
     for (int i = 0; i < nr_teams; i++)
     {
+        team.teamName = allocateString();
         team = fileReadTeam(fin, team);
         team.player = allocatePlayers(team.numberOfPlayers);
 
@@ -231,4 +245,17 @@ Tree *task4(Node *LastEightTeams, FILE *fout)
     printTree(root, fout);
 
     return root;
+}
+
+void task5(Node *lastEightTeams, FILE *fout)
+{
+    AVL_tree *root = NULL;
+
+    while (lastEightTeams != NULL)
+    {
+        root = insertAVL(root, lastEightTeams->val);
+        lastEightTeams = lastEightTeams->next;
+    }
+    fprintf(fout, "\nTHE LEVEL 2 TEAMS ARE:\n");
+    printAVL_treeLVL2(root, fout); // AVLtree.c
 }

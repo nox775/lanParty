@@ -10,8 +10,8 @@
 
 struct Players
 {
-    char firstName[maxName];
-    char secondName[maxName];
+    char *firstName;
+    char *secondName;
     int points;
 };
 
@@ -19,7 +19,7 @@ typedef struct Players playerInfo;
 
 struct Team
 {
-    char teamName[maxName];
+    char *teamName;
     int numberOfPlayers;
     float teamPoints;
     playerInfo *player;
@@ -47,3 +47,12 @@ struct N
     struct N *left, *right;
 };
 typedef struct N Tree;
+
+struct a
+{
+    int height;
+    teamInfo val;
+    struct a *left, *right;
+};
+
+typedef struct a AVL_tree;
