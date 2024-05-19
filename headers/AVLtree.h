@@ -9,4 +9,4 @@ AVL_tree *RLRotation(AVL_tree *);
 
 int compareKeys(teamInfo, teamInfo);
 AVL_tree *insertAVL(AVL_tree *, teamInfo);
-void printAVL_treeLVL2(AVL_tree *, FILE *);
+void printAVL_treeLVL2(AVL_tree *, FILE *, int);

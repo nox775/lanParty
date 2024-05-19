@@ -253,9 +253,10 @@ void task5(Node *lastEightTeams, FILE *fout)
 
     while (lastEightTeams != NULL)
     {
+
         root = insertAVL(root, lastEightTeams->val);
         lastEightTeams = lastEightTeams->next;
     }
     fprintf(fout, "\nTHE LEVEL 2 TEAMS ARE:\n");
-    printAVL_treeLVL2(root, fout); // AVLtree.c
+    printAVL_treeLVL2(root, fout, 0); // AVLtree.c
 }
