@@ -57,23 +57,19 @@ AVL_tree *RLRotation(AVL_tree *Z)
     return LeftRotation(Z);
 }
 
-int sumofStr(char *str1, char *str2)
-{
-}
-
 int compareKeys(teamInfo key1, teamInfo key2)
 {
     if (float_equal(key1.teamPoints, key2.teamPoints))
     {
-        if (strcmp(key1.teamName, key2.teamName))
+        if (strcmp(key1.teamName, key2.teamName) < 0)
             return 1;
         else
             return -1;
     }
     else if (key1.teamPoints > key2.teamPoints)
-        return 1;
-    else if (key1.teamPoints < key2.teamPoints)
         return -1;
+    else if (key1.teamPoints < key2.teamPoints)
+        return 1;
 }
 
 AVL_tree *insertAVL(AVL_tree *node, teamInfo key)
@@ -118,15 +114,13 @@ AVL_tree *insertAVL(AVL_tree *node, teamInfo key)
     return node;
 }
 
-void printAVL_treeLVL2(AVL_tree *root, FILE *fout, int level)
+void printAVL_treeLVL2(AVL_tree *root, FILE *fout)
 {
-    if (root == NULL)
-        return;
-    if (level == 2)
+    if (root)
     {
-        fprintf(fout, "%s\n", root->val.teamName);
-        return;
+        printAVL_treeLVL2(root->right, fout);
+        if (root->height == 2)
+            fprintf(fout, "%s\n", root->val.teamName);
+        printAVL_treeLVL2(root->left, fout);
     }
-    printAVL_treeLVL2(root->right, fout, level + 1);
-    printAVL_treeLVL2(root->left, fout, level + 1);
 }

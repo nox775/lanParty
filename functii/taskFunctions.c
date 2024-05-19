@@ -258,5 +258,5 @@ void task5(Node *lastEightTeams, FILE *fout)
         lastEightTeams = lastEightTeams->next;
     }
     fprintf(fout, "\nTHE LEVEL 2 TEAMS ARE:\n");
-    printAVL_treeLVL2(root, fout, 0); // AVLtree.c
+    printAVL_treeLVL2(root, fout); // AVLtree.c
 }
