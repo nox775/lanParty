@@ -26,5 +26,5 @@ Node *task3(Node *, FILE *, int);
 void printGames(Queue **, FILE *, int, int, Node **, Node **);
 int VersusWinner(teamInfo, teamInfo);
 
-Tree *task4(Node *, FILE *);
+Node *task4(Node *, FILE *);
 void task5(Node *, FILE *);

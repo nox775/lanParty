@@ -118,9 +118,19 @@ void printAVL_treeLVL2(AVL_tree *root, FILE *fout)
 {
     if (root)
     {
-        printAVL_treeLVL2(root->right, fout);
-        if (root->height == 2)
-            fprintf(fout, "%s\n", root->val.teamName);
-        printAVL_treeLVL2(root->left, fout);
+        if (root->left)
+        {
+            if (root->left->left)
+                fprintf(fout, "%s\n", root->left->left->val.teamName);
+            if (root->left->right)
+                fprintf(fout, "%s\n", root->left->right->val.teamName);
+        }
+        if (root->right)
+        {
+            if (root->right->left)
+                fprintf(fout, "%s\n", root->right->left->val.teamName);
+            if (root->right->right)
+                fprintf(fout, "%s\n", root->right->right->val.teamName);
+        }
     }
 }

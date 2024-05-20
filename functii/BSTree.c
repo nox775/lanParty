@@ -40,8 +40,18 @@ void printTree(Tree *root, FILE *fout)
     if (root)
     {
         printTree(root->right, fout);
-
         fprintf(fout, "%-32s  -  %.2f\n", root->val.teamName, root->val.teamPoints);
         printTree(root->left, fout);
+    }
+}
+
+void copyBSTtoList(Tree *root, Node **list)
+{
+
+    if (root != NULL)
+    {
+        copyBSTtoList(root->right, list);
+        addAtEnd(list, root->val);
+        copyBSTtoList(root->left, list);
     }
 }

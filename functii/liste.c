@@ -2,7 +2,7 @@
 #include "../headers/taskFunctions.h"
 #include "../headers/liste.h"
 
-void addAtBeginning(Node **head, teamInfo buffer, FILE *fin)
+void addAtBeginningFromFile(Node **head, teamInfo buffer, FILE *fin)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
 
@@ -16,6 +16,38 @@ void addAtBeginning(Node **head, teamInfo buffer, FILE *fin)
 
     newNode->next = *head;
     *head = newNode;
+}
+
+void addAtBeginning(Node **head, teamInfo buffer)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+
+    newNode->val.teamName = allocateString();
+    newNode->val.player = allocatePlayers(buffer.numberOfPlayers);
+
+    // (newNode->val).numberOfPlayers = buffer.numberOfPlayers;
+    // strcpy(newNode->val.teamName, buffer.teamName);
+
+    newNode->val = buffer;
+
+    newNode->next = *head;
+    *head = newNode;
+}
+
+void addAtEnd(Node **head, teamInfo v)
+{
+    Node *aux = *head;
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->val = v;
+    if (*head == NULL)
+        addAtBeginning(head, v);
+    else
+    {
+        while (aux->next != NULL)
+            aux = aux->next;
+        aux->next = newNode;
+        newNode->next = NULL;
+    }
 }
 
 void deleteNode(Node **head, float val)

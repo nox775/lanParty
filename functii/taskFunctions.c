@@ -101,7 +101,7 @@ void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
         team = fileReadTeam(fin, team);
         team.player = allocatePlayers(team.numberOfPlayers);
 
-        addAtBeginning(listTeams, team, fin);
+        addAtBeginningFromFile(listTeams, team, fin);
     }
     printNameOfTeams(fout, *listTeams);
 }
@@ -232,9 +232,10 @@ Node *task3(Node *listTeams, FILE *fout, int nr_teams)
     return LastEightList;
 }
 
-Tree *task4(Node *LastEightTeams, FILE *fout)
+Node *task4(Node *LastEightTeams, FILE *fout)
 {
     Tree *root = NULL;
+    Node *orderLastEight = NULL;
     while (LastEightTeams != NULL)
     {
 
@@ -243,8 +244,8 @@ Tree *task4(Node *LastEightTeams, FILE *fout)
     }
     fprintf(fout, "\nTOP 8 TEAMS:\n");
     printTree(root, fout);
-
-    return root;
+    copyBSTtoList(root, &orderLastEight);
+    return orderLastEight;
 }
 
 void task5(Node *lastEightTeams, FILE *fout)
@@ -255,8 +256,10 @@ void task5(Node *lastEightTeams, FILE *fout)
     {
 
         root = insertAVL(root, lastEightTeams->val);
+
         lastEightTeams = lastEightTeams->next;
     }
+
     fprintf(fout, "\nTHE LEVEL 2 TEAMS ARE:\n");
     printAVL_treeLVL2(root, fout); // AVLtree.c
 }

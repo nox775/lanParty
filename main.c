@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
     {
         lastEightTeams = task3(listTeams, fout, nr_teams);
     }
-
+    Node *orderLastEightTeams = NULL;
     if (task[3] == 1)
     {
-        lastEightTree = task4(lastEightTeams, fout);
+        orderLastEightTeams = task4(lastEightTeams, fout);
     }
     if (task[4] == 1)
-        task5(lastEightTeams, fout);
+        task5(orderLastEightTeams, fout);
 
     fclose(fout);
 
