@@ -2,34 +2,45 @@
 #include "../headers/taskFunctions.h"
 #include "../headers/liste.h"
 
-void addAtBeginningFromFile(Node **head, teamInfo buffer, FILE *fin)
+void addToListFromFIile(Node **head, FILE *fin, int nr_teams)
 {
-    Node *newNode = (Node *)malloc(sizeof(Node));
+    // scrie din fisier in lista
+    for (int i = 0; i < nr_teams; i++)
+    {
+        Node *newNode = (Node *)malloc(sizeof(Node));
 
-    newNode->val.teamName = allocateString();
-    newNode->val.player = allocatePlayers(buffer.numberOfPlayers);
+        newNode->val.teamName = (char *)malloc(maxName * sizeof(char));
 
-    (newNode->val).numberOfPlayers = buffer.numberOfPlayers;
-    strcpy(newNode->val.teamName, buffer.teamName);
+        if (!newNode->val.teamName)
+        {
+            printf("Memory allocation failed\n");
+            exit(-1);
+        }
+        newNode->val = fileReadTeam(fin, newNode->val);
 
-    newNode->val = fileReadPlayer(fin, newNode->val, (newNode->val).numberOfPlayers);
+        newNode->val.player = (playerInfo *)malloc(newNode->val.numberOfPlayers * sizeof(playerInfo));
 
-    newNode->next = *head;
-    *head = newNode;
+        if (!newNode->val.player)
+        {
+            printf("Memory allocation failed\n");
+            exit(-1);
+        }
+        for (int j = 0; j < newNode->val.numberOfPlayers; j++)
+        {
+            newNode->val.player[j].firstName = (char *)malloc(maxName * sizeof(char));
+            newNode->val.player[j].secondName = (char *)malloc(maxName * sizeof(char));
+        }
+
+        newNode->val = fileReadPlayer(fin, newNode->val, (newNode->val).numberOfPlayers);
+        newNode->next = *head;
+        *head = newNode;
+    }
 }
 
 void addAtBeginning(Node **head, teamInfo buffer)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
-
-    newNode->val.teamName = allocateString();
-    newNode->val.player = allocatePlayers(buffer.numberOfPlayers);
-
-    // (newNode->val).numberOfPlayers = buffer.numberOfPlayers;
-    // strcpy(newNode->val.teamName, buffer.teamName);
-
     newNode->val = buffer;
-
     newNode->next = *head;
     *head = newNode;
 }
@@ -59,7 +70,6 @@ void deleteNode(Node **head, float val)
     if (float_equal(val, headcopy->val.teamPoints))
     {
         *head = (*head)->next;
-        // free(headcopy->val.player);
         free(headcopy);
         return;
     }
@@ -75,7 +85,6 @@ void deleteNode(Node **head, float val)
         else
         {
             prev->next = headcopy->next;
-            //  free(headcopy->val.player);
             free(headcopy);
             return;
         }
@@ -89,7 +98,6 @@ void deleteList(Node **head)
     while (*head != NULL)
     {
         headcopy = (*head)->next;
-        // free((*head)->val.player);
         free(*head);
         *head = headcopy;
     }
@@ -98,6 +106,7 @@ void deleteList(Node **head)
 
 void addWinnersToList(Node **head, Node *WinStack)
 {
+    // pune din lista in stiva cu invingatori
     for (int i = 0; i < 8; i++)
     {
         Node *newNode = (Node *)malloc(sizeof(Node));
@@ -121,8 +130,6 @@ void totalTeamPoints(Node *listTeams)
 
         listTeams->val.teamPoints = points / ((float)listTeams->val.numberOfPlayers);
 
-        // printf("\n%s %.2f\n", listTeams->val.teamName, listTeams->val.teamPoints);
-
         listTeams = listTeams->next;
     }
 }
@@ -141,4 +148,15 @@ void lastTeamPoints(Node *listTeams, int nr_teams, float *scoring)
     }
 
     descending_sort(scoring, nr_teams);
+}
+
+void printNameOfTeams(FILE *fout, Node *listTeams)
+{
+    // scrie in fisierul de iesire numele echipelor din lista
+    while (listTeams->next != NULL)
+    {
+        fprintf(fout, "%s\n", listTeams->val.teamName);
+        listTeams = listTeams->next;
+    }
+    fprintf(fout, "%s\n", listTeams->val.teamName);
 }

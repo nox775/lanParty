@@ -5,15 +5,15 @@
 #include "../headers/queue.h"
 #include "../headers/BSTree.h"
 
-Tree *newNode(teamInfo team)
+BST *newNode(teamInfo team)
 {
-    Tree *node = (Tree *)malloc(sizeof(Tree));
+    BST *node = (BST *)malloc(sizeof(BST));
     node->val = team;
     node->left = node->right = NULL;
     return node;
 }
 
-Tree *insertTree(Tree *node, teamInfo team)
+BST *insertTree(BST *node, teamInfo team)
 {
     if (node == NULL)
         return newNode(team);
@@ -34,7 +34,7 @@ Tree *insertTree(Tree *node, teamInfo team)
     return node;
 }
 
-void printTree(Tree *root, FILE *fout)
+void printTree(BST *root, FILE *fout)
 {
     // Afiseaza in fiser echipele din BST
     if (root)
@@ -45,7 +45,7 @@ void printTree(Tree *root, FILE *fout)
     }
 }
 
-void copyBSTtoList(Tree *root, Node **list)
+void copyBSTtoList(BST *root, Node **list)
 {
 
     if (root != NULL)

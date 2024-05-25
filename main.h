@@ -8,31 +8,26 @@
 #define maxName 50
 #define epsilon 0.00001
 
-struct Players
+typedef struct Players
 {
     char *firstName;
     char *secondName;
     int points;
-};
+} playerInfo;
 
-typedef struct Players playerInfo;
-
-struct Team
+typedef struct Team
 {
     char *teamName;
     int numberOfPlayers;
     float teamPoints;
     playerInfo *player;
-};
-
-typedef struct Team teamInfo;
+} teamInfo;
 
 struct elem
 {
     teamInfo val;
     struct elem *next;
 };
-
 typedef struct elem Node;
 
 struct Q
@@ -46,7 +41,7 @@ struct N
     teamInfo val;
     struct N *left, *right;
 };
-typedef struct N Tree;
+typedef struct N BST;
 
 struct a
 {
@@ -55,4 +50,4 @@ struct a
     struct a *left, *right;
 };
 
-typedef struct a AVL_tree;
+typedef struct a AVL;

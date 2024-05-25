@@ -1,6 +1,6 @@
 #include "main.h"
 #include "./headers/taskFunctions.h"
-#include "./headers/queue.h"
+#include "./headers/liste.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,9 +22,8 @@ int main(int argc, char *argv[])
     fclose(ftask);
 
     Node *listTeams = NULL, *lastEightTeams = NULL;
-    Tree *lastEightTree = NULL;
 
-    int nr_teams = numberOfTeams(fin, nr_teams);
+    int nr_teams = numberOfTeams(fin);
 
     if (task[0] == 1)
     {
@@ -45,14 +44,21 @@ int main(int argc, char *argv[])
     {
         lastEightTeams = task3(listTeams, fout, nr_teams);
     }
-    Node *orderLastEightTeams = NULL;
+
+    deleteList(&listTeams);
+
+    Node *sortedLastEightTeams = NULL;
     if (task[3] == 1)
     {
-        orderLastEightTeams = task4(lastEightTeams, fout);
+        sortedLastEightTeams = task4(lastEightTeams, fout);
     }
-    if (task[4] == 1)
-        task5(orderLastEightTeams, fout);
 
+    deleteList(&lastEightTeams);
+
+    if (task[4] == 1)
+        task5(sortedLastEightTeams, fout);
+
+    deleteList(&sortedLastEightTeams);
     fclose(fout);
 
     return 0;

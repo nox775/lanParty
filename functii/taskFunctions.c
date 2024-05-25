@@ -24,37 +24,11 @@ void taskInit(FILE *file, int task[numberOfTasks])
     }
 }
 
-int numberOfTeams(FILE *file, int n)
+int numberOfTeams(FILE *file)
 {
-    fscanf(file, "%d", &n);
-    return n;
-}
-
-playerInfo *allocatePlayers(int numberOfPlayers)
-{
-    playerInfo *players = (playerInfo *)malloc(numberOfPlayers * sizeof(playerInfo));
-    if (!players)
-    {
-        printf("Memory allocation failed\n");
-        exit(-1);
-    }
-    for (int i = 0; i < numberOfPlayers; i++)
-    {
-        players[i].firstName = (char *)malloc(maxName * sizeof(char));
-        players[i].secondName = (char *)malloc(maxName * sizeof(char));
-    }
-    return players;
-}
-
-char *allocateString()
-{
-    char *str = (char *)malloc(maxName * sizeof(char));
-    if (!str)
-    {
-        printf("Memory allocation failed\n");
-        exit(-1);
-    }
-    return str;
+    int echipe;
+    fscanf(file, "%d", &echipe);
+    return echipe;
 }
 
 teamInfo fileReadTeam(FILE *file, teamInfo buffer)
@@ -79,30 +53,10 @@ teamInfo fileReadPlayer(FILE *file, teamInfo buffer, int n)
     return buffer;
 }
 
-void printNameOfTeams(FILE *fout, Node *listTeams)
-{
-    // scrie in fisierul de iesire numele echipelor din lista
-    while (listTeams->next != NULL)
-    {
-        fprintf(fout, "%s\n", listTeams->val.teamName);
-        listTeams = listTeams->next;
-    }
-    fprintf(fout, "%s\n", listTeams->val.teamName);
-}
-
 void task1(FILE *fin, FILE *fout, Node **listTeams, int nr_teams)
 {
     // scrie informatiile despre echipa intr-o lista
-    teamInfo team;
-
-    for (int i = 0; i < nr_teams; i++)
-    {
-        team.teamName = allocateString();
-        team = fileReadTeam(fin, team);
-        team.player = allocatePlayers(team.numberOfPlayers);
-
-        addAtBeginningFromFile(listTeams, team, fin);
-    }
+    addToListFromFIile(listTeams, fin, nr_teams);
     printNameOfTeams(fout, *listTeams);
 }
 
@@ -142,20 +96,20 @@ int float_equal(float a, float b)
 
 void task2(Node **listTeams, int nr_teams, FILE *fout)
 {
-    totalTeamPoints(*listTeams);
+    totalTeamPoints(*listTeams); // liste.c
 
     float *scoring = (float *)malloc(nr_teams * sizeof(float));
 
-    lastTeamPoints(*listTeams, nr_teams, scoring);
+    lastTeamPoints(*listTeams, nr_teams, scoring); // liste.c
 
     int nr_teams_remaning = NumberRemaningTeams(nr_teams);
 
     for (int i = nr_teams - 1; i >= nr_teams_remaning; i--)
     {
-        deleteNode(listTeams, scoring[i]);
+        deleteNode(listTeams, scoring[i]); // liste.d
     }
 
-    printNameOfTeams(fout, *listTeams);
+    printNameOfTeams(fout, *listTeams); // lsite.c
     free(scoring);
 }
 
@@ -228,13 +182,12 @@ Node *task3(Node *listTeams, FILE *fout, int nr_teams)
 
         deleteStack(&LoseStack);
     }
-    deleteList(&listTeams);
     return LastEightList;
 }
 
 Node *task4(Node *LastEightTeams, FILE *fout)
 {
-    Tree *root = NULL;
+    BST *root = NULL;
     Node *orderLastEight = NULL;
     while (LastEightTeams != NULL)
     {
@@ -250,7 +203,7 @@ Node *task4(Node *LastEightTeams, FILE *fout)
 
 void task5(Node *lastEightTeams, FILE *fout)
 {
-    AVL_tree *root = NULL;
+    AVL *root = NULL;
 
     while (lastEightTeams != NULL)
     {
@@ -261,5 +214,5 @@ void task5(Node *lastEightTeams, FILE *fout)
     }
 
     fprintf(fout, "\nTHE LEVEL 2 TEAMS ARE:\n");
-    printAVL_treeLVL2(root, fout); // AVLtree.c
+    printAVL_LVL2(root, fout); // AVLtree.c
 }

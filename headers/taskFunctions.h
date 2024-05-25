@@ -2,17 +2,12 @@ void fileOpenVerification(FILE *);
 void fileDeclarations(FILE *, FILE *, FILE *, char **);
 void taskInit(FILE *, int *);
 
-int numberOfTeams(FILE *, int);
-
-char *allocateString();
-
-playerInfo *allocatePlayers(int);
+int numberOfTeams(FILE *);
 
 teamInfo fileReadTeam(FILE *, teamInfo);
 teamInfo fileReadPlayer(FILE *, teamInfo, int);
 
 void task1(FILE *, FILE *, Node **, int);
-void printNameOfTeams(FILE *, Node *);
 
 int NumberRemaningTeams(int);
 

@@ -1,12 +1,12 @@
 int max(int a, int b);
 
-int nodeHeight(AVL_tree *);
+int nodeHeight(AVL *);
 
-AVL_tree *RightRotation(AVL_tree *);
-AVL_tree *LeftRotation(AVL_tree *);
-AVL_tree *LRRotation(AVL_tree *);
-AVL_tree *RLRotation(AVL_tree *);
+AVL *RightRotation(AVL *);
+AVL *LeftRotation(AVL *);
+AVL *LRRotation(AVL *);
+AVL *RLRotation(AVL *);
 
 int compareKeys(teamInfo, teamInfo);
-AVL_tree *insertAVL(AVL_tree *, teamInfo);
-void printAVL_treeLVL2(AVL_tree *root, FILE *fout);
+AVL *insertAVL(AVL *, teamInfo);
+void printAVL_LVL2(AVL *root, FILE *fout);

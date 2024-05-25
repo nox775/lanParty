@@ -1,4 +1,4 @@
-Tree *newNode(teamInfo);
-Tree *insertTree(Tree *, teamInfo);
-void copyBSTtoList(Tree *, Node **);
-void printTree(Tree *, FILE *);
+BST *newNode(teamInfo);
+BST *insertTree(BST *, teamInfo);
+void copyBSTtoList(BST *, Node **);
+void printTree(BST *, FILE *);

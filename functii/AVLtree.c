@@ -10,17 +10,17 @@ int max(int a, int b)
     return ((a > b) ? a : b);
 }
 
-int nodeHeight(AVL_tree *root)
+int nodeHeight(AVL *root)
 {
     if (root == NULL)
         return -1;
     return root->height;
 }
 
-AVL_tree *RightRotation(AVL_tree *z)
+AVL *RightRotation(AVL *z)
 {
-    AVL_tree *y = z->left;
-    AVL_tree *T3 = y->right;
+    AVL *y = z->left;
+    AVL *T3 = y->right;
 
     y->right = z;
     z->left = T3;
@@ -31,10 +31,10 @@ AVL_tree *RightRotation(AVL_tree *z)
     return y;
 }
 
-AVL_tree *LeftRotation(AVL_tree *z)
+AVL *LeftRotation(AVL *z)
 {
-    AVL_tree *y = z->right;
-    AVL_tree *T2 = y->left;
+    AVL *y = z->right;
+    AVL *T2 = y->left;
 
     y->left = z;
     z->right = T2;
@@ -45,13 +45,13 @@ AVL_tree *LeftRotation(AVL_tree *z)
     return y;
 }
 
-AVL_tree *LRRotation(AVL_tree *Z)
+AVL *LRRotation(AVL *Z)
 {
     Z->left = LeftRotation(Z->left);
     return RightRotation(Z);
 }
 
-AVL_tree *RLRotation(AVL_tree *Z)
+AVL *RLRotation(AVL *Z)
 {
     Z->right = RightRotation(Z->right);
     return LeftRotation(Z);
@@ -72,11 +72,11 @@ int compareKeys(teamInfo key1, teamInfo key2)
         return 1;
 }
 
-AVL_tree *insertAVL(AVL_tree *node, teamInfo key)
+AVL *insertAVL(AVL *node, teamInfo key)
 {
     if (node == NULL)
     {
-        node = (AVL_tree *)malloc(sizeof(AVL_tree));
+        node = (AVL *)malloc(sizeof(AVL));
         node->val = key;
         node->height = 0;
         node->left = node->right = NULL;
@@ -114,7 +114,7 @@ AVL_tree *insertAVL(AVL_tree *node, teamInfo key)
     return node;
 }
 
-void printAVL_treeLVL2(AVL_tree *root, FILE *fout)
+void printAVL_LVL2(AVL *root, FILE *fout)
 {
     if (root)
     {
