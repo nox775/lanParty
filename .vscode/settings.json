@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "functions.h": "c",
-    "taskfunctions.h": "c",
-    "main.h": "c",
-    "liste.h": "c",
-    "bstree.h": "c"
-  }
-}
